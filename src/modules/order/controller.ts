@@ -2,9 +2,8 @@ import {OrderModel} from './model'
 import {Request, Response} from 'express';
 import {PayoutInfoModel} from '../payout_info/model'
 import {UserModel} from '../users/model'
+import {OpenPayController} from '../openpay/controller'
 import {productModel} from "../products/model";
-import axios from "axios";
-import mongoose from "mongoose";
 
 
 export class orderController {
@@ -52,16 +51,23 @@ export class orderController {
                 shipping_type: body.shipping_type,
                 status: body.status,
             })
-            newOrder = await newOrder.save()
+            await newOrder.save()
 
 
+            if (body.payment_type === 'card_openpay') {
+                console.log('ENTRO AL IFFFFFFFFFFFFFFF')
 
-                return res.status(200).json({user})
+                await OpenPayController.card('venta', newOrder.total_amount, body.userId, payoutInfo._id, '', customer, false)
+
             }
-        catch
-            (error)
-            {
-                return res.status(500).json({message: error})
-            }
+
+            return res.status(200).json({
+                message: 'Order successfully created!',
+                data: newOrder
+            })
+        } catch
+            (error) {
+            return res.status(500).json({message: error})
         }
     }
+}

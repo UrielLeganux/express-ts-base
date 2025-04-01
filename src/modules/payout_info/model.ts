@@ -21,7 +21,7 @@ const PayoutInfoSchema = new Schema({
         type: Number,
         required: false,
     },
-    tag: {
+    tag: { //ID aleatorio
         type: String,
         required: false,
     },

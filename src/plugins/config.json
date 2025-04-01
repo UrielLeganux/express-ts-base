@@ -34,7 +34,7 @@
   "openpay": {
     "name": "openpay",
     "version": "1.0.0",
-    "enabled": true,
+    "enabled": false,
     "config": {
       "sandbox": true,
       "routes": "/api/v1/openpay"
